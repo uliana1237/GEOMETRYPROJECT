@@ -1,5 +1,6 @@
 package app;
 
+import controls.Label;
 import io.github.humbleui.jwm.*;
 import io.github.humbleui.jwm.skija.EventFrameSkija;
 import io.github.humbleui.skija.Canvas;
@@ -13,6 +14,7 @@ import java.io.File;
 import java.util.function.Consumer;
 
 import static app.Colors.APP_BACKGROUND_COLOR;
+import static app.Colors.PANEL_BACKGROUND_COLOR;
 
 /**
  * Класс окна приложения
@@ -23,16 +25,25 @@ public class Application implements Consumer<Event> {
      */
     private final Window window;
     /**
-     * Конструктор окна приложения
-     */
-    /**
      * радиус скругления элементов
      */
     public static final int C_RAD_IN_PX = 4;
+    /**
+     * отступы панелей
+     */
+    public static final int PANEL_PADDING = 5;
+    /**
+     * Первый заголовок
+     */
+    private final Label label;
+    /**
+     * Конструктор окна приложения
+     */
     // конструктор приложения
     public Application() {
         // создаём окно
         window = App.makeWindow();
+        label = new Label(window, true, PANEL_BACKGROUND_COLOR, PANEL_PADDING, "Привет, мир!");
         window.setEventListener(this);
         window.setTitle("Java 2D");
         window.setWindowSize(900, 900);
@@ -87,11 +98,13 @@ public class Application implements Consumer<Event> {
      * @param windowCS СК окна
      */
     public void paint(Canvas canvas, CoordinateSystem2i windowCS) {
+        // запоминаем изменения (пока что там просто заливка цветом)
         canvas.save();
+        // очищаем канвас
         canvas.clear(APP_BACKGROUND_COLOR);
-        Paint paint = new Paint();
-        paint.setColor(Misc.getColor(100, 255, 255, 255));
-        canvas.drawRRect(windowCS.getRRect(4), paint);
+        // рисуем заголовок в точке [100,100] с шириной и выостой 200
+        label.paint(canvas, new CoordinateSystem2i(100, 100, 200, 200));
+        // восстанавливаем состояние канваса
         canvas.restore();
     }
 }
