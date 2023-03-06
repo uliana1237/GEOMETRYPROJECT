@@ -25,6 +25,10 @@ public class Application implements Consumer<Event> {
     /**
      * Конструктор окна приложения
      */
+    /**
+     * радиус скругления элементов
+     */
+    public static final int C_RAD_IN_PX = 4;
     // конструктор приложения
     public Application() {
         // создаём окно
